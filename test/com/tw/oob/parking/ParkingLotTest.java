@@ -3,6 +3,7 @@ package com.tw.oob.parking;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
@@ -64,6 +65,17 @@ public class ParkingLotTest {
         assertNull(upParkCar);
     }
 
+    @Test
+    public void test_should_not_unPark_car_twice_when_ticket_is_valid() {
+        ParkingLot parkingLot = new ParkingLot(3);
 
+        Car car = new Car(1);
+        Ticket ticket = parkingLot.park(car);
+
+        Car upParkCar = parkingLot.unPark(ticket);
+        Car upParkAgainCar = parkingLot.unPark(ticket);
+
+        assertThat(upParkAgainCar, nullValue());
+    }
 
 }

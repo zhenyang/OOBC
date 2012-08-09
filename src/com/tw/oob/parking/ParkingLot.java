@@ -17,17 +17,21 @@ public class ParkingLot {
             return null;
         }
         areas.add(car);
-        return new Ticket(car.getId());  //To change body of created methods use File | Settings | File Templates.
+        return new Ticket(car.getId());
     }
 
     public Car unPark(Ticket ticket) {
         int carId = ticket.getCarId();
         for (Car car : areas) {
             if (car.getId() == carId) {
+                areas.remove(car);
                 return car;
             }
-
         }
-        return null;  //To change body of created methods use File | Settings | File Templates.
+        return null;
+    }
+
+    public int getFreeAreaSize() {
+        return areaSize - areas.size();
     }
 }

@@ -58,6 +58,23 @@ public class ParkingManagerTest {
         assertThat(car, sameInstance(sameCar));
     }
 
+    @Test
+    public void test_should_park_car_to_first_not_full_parking_lot() throws Exception {
+        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+        ParkingLot parkingLot = new ParkingLot(0);
+        parkingLots.add(parkingLot);
+        ParkingLot parkingLot1 = new ParkingLot(1);
+        parkingLots.add(parkingLot1);
+        ParkingManager parkingManager = new ParkingManager(parkingLots);
+
+        Car car = new Car(1);
+        Ticket ticket = parkingManager.park(car);
+
+        Car sameCar = parkingLot1.unPark(ticket);
+
+        assertThat(car, sameInstance(sameCar));
+    }
+
     private List<ParkingLot> createParkingLots(int lotsSize, int eachAreaSize) {
         List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
         for (int i = 0; i < lotsSize; i++) {
