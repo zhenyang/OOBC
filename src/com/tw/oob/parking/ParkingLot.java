@@ -34,4 +34,8 @@ public class ParkingLot {
     public int getFreeAreaSize() {
         return areaSize - areas.size();
     }
+
+    public double getFreeAreaRatio() {
+        return (double) getFreeAreaSize() / areaSize;
+    }
 }

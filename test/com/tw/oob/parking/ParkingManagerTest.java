@@ -13,7 +13,8 @@ import static org.junit.Assert.assertThat;
 public class ParkingManagerTest {
     @Test
     public void test_should_park_car_when_two_parking_lots_are_empty() throws Exception {
-        ParkingManager parkingManager = new ParkingManager(createParkingLots(2, 1));
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
@@ -23,7 +24,8 @@ public class ParkingManagerTest {
 
     @Test
     public void test_should_park_car_when_first_parking_lot_is_full() throws Exception {
-        ParkingManager parkingManager = new ParkingManager(createParkingLots(2, 1));
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(createParkingLots(2, 1));
 
         parkingManager.park(new Car(1));
 
@@ -35,7 +37,8 @@ public class ParkingManagerTest {
 
     @Test
     public void test_should_not_park_car_when_all_parking_lots_are_full() throws Exception {
-        ParkingManager parkingManager = new ParkingManager(createParkingLots(2, 1));
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(createParkingLots(2, 1));
 
         parkingManager.park(new Car(1));
         parkingManager.park(new Car(2));
@@ -48,7 +51,8 @@ public class ParkingManagerTest {
 
     @Test
     public void test_should_unpark_car_when_ticket_is_valid() throws Exception {
-        ParkingManager parkingManager = new ParkingManager(createParkingLots(2, 1));
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
@@ -65,7 +69,8 @@ public class ParkingManagerTest {
         parkingLots.add(parkingLot);
         ParkingLot parkingLot1 = new ParkingLot(1);
         parkingLots.add(parkingLot1);
-        ParkingManager parkingManager = new ParkingManager(parkingLots);
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(parkingLots);
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
