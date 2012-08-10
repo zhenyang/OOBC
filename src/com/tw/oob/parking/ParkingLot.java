@@ -36,6 +36,8 @@ public class ParkingLot {
     }
 
     public double getFreeAreaRatio() {
-        return (double) getFreeAreaSize() / areaSize;
+        double i = (double)getFreeAreaSize() / areaSize;
+        System.out.println(i);
+        return i;
     }
 }

@@ -2,11 +2,15 @@ package com.tw.oob.parking;
 
 import java.util.List;
 
-public class SmartestChooser implements Chooser{
-    public  ParkingLot chooseLot(List<ParkingLot> lots) {
+public class SmartestParkingManager extends ParkingManager{
+    public SmartestParkingManager(List<ParkingLot> parkingLots) {
+        super(parkingLots);
+    }
+
+    protected ParkingLot chooseParkingLot() {
         ParkingLot lot = null;
         double max = 0;
-        for (ParkingLot parkingLot : lots) {
+        for (ParkingLot parkingLot : parkingLots) {
             if (parkingLot.getFreeAreaRatio() > max) {
                 max = parkingLot.getFreeAreaRatio();
                 lot = parkingLot;
@@ -14,4 +18,4 @@ public class SmartestChooser implements Chooser{
         }
         return lot;
     }
-}
+    }

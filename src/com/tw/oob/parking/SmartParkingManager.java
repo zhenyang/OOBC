@@ -2,11 +2,15 @@ package com.tw.oob.parking;
 
 import java.util.List;
 
-public class SmartChooser implements Chooser {
-    public  ParkingLot chooseLot(List<ParkingLot> lots) {
+public class SmartParkingManager extends ParkingManager {
+    public SmartParkingManager(List<ParkingLot> parkingLots) {
+        super(parkingLots);
+    }
+
+    protected ParkingLot chooseParkingLot() {
         ParkingLot lot = null;
         int max = 0;
-        for (ParkingLot parkingLot : lots) {
+        for (ParkingLot parkingLot : parkingLots) {
             if (parkingLot.getFreeAreaSize() > max) {
                 max = parkingLot.getFreeAreaSize();
                 lot = parkingLot;

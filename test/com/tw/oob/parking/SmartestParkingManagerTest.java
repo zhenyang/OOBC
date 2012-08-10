@@ -18,11 +18,10 @@ public class SmartestParkingManagerTest {
         ParkingLot parkingLot1 = new ParkingLot(5);
         parkingLot1.park(new Car(2));
         parkingLots.add(parkingLot1);
-        ParkingManager smartestParkingManager = new ParkingManager(new SmartestChooser());
-        smartestParkingManager.setParkingLots(parkingLots);
+        SmartParkingManager parkingManager =  new SmartParkingManager(parkingLots);
 
         Car car = new Car(3);
-        Ticket ticket = smartestParkingManager.park(car);
+        Ticket ticket = parkingManager.park(car);
 
         Car sameCar = parkingLot1.unPark(ticket);
 

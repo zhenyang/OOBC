@@ -4,29 +4,29 @@ import java.util.List;
 
 public class ParkingManager
 {
-    private List<ParkingLot> parkingLots;
-    private Chooser chooser;
+    protected List<ParkingLot> parkingLots;
 
-    protected ParkingManager(){}
-
-    public ParkingManager(Chooser chooser) {
-        this.chooser = chooser;
-    }
-
-    public void setParkingLots(List<ParkingLot> parkingLots) {
+    public ParkingManager(List<ParkingLot> parkingLots) {
         this.parkingLots = parkingLots;
     }
 
     public Ticket park(Car car) {
-        ParkingLot lot = chooseParkingLot(parkingLots);
+        ParkingLot lot = chooseParkingLot();
         if (lot != null) {
             return lot.park(car);
         }
         return null;
     }
 
-    protected ParkingLot chooseParkingLot(List<ParkingLot> lots) {
-        return chooser.chooseLot(lots);
+    protected ParkingLot chooseParkingLot() {
+        ParkingLot lot = null;
+        for (ParkingLot parkingLot : parkingLots) {
+            if (parkingLot.getFreeAreaSize() > 0) {
+                lot = parkingLot;
+                break;
+            }
+        }
+        return lot;
     }
 
     public Car unPark(Ticket ticket) {

@@ -16,11 +16,10 @@ public class SmartParkingManagerTest {
         parkingLots.add(parkingLot);
         ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLots.add(parkingLot1);
-        ParkingManager smartParkingManager = new ParkingManager(new SmartChooser());
-        smartParkingManager.setParkingLots(parkingLots);
+        SmartParkingManager parkingManager =  new SmartParkingManager(parkingLots);
 
         Car car = new Car(1);
-        Ticket ticket = smartParkingManager.park(car);
+        Ticket ticket = parkingManager.park(car);
 
         Car sameCar = parkingLot1.unPark(ticket);
 
@@ -34,9 +33,7 @@ public class SmartParkingManagerTest {
         parkingLots.add(parkingLot);
         ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLots.add(parkingLot1);
-        ParkingManager smartParkingManager = new ParkingManager(new SmartChooser());
-        smartParkingManager.setParkingLots(parkingLots);
-        ParkingManager parkingManager = smartParkingManager;
+        SmartParkingManager parkingManager =  new SmartParkingManager(parkingLots);
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
