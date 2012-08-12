@@ -1,32 +1,28 @@
 package com.tw.oob.parking;
 
+import com.tw.oob.parking.chooser.Chooser;
+
 import java.util.List;
 
 public class ParkingManager
 {
     protected List<ParkingLot> parkingLots;
+    protected Chooser chooser;
 
-    public ParkingManager(List<ParkingLot> parkingLots) {
+    public ParkingManager(Chooser chooser) {
+        this.chooser = chooser;
+    }
+
+    public void setParkingLots(List<ParkingLot> parkingLots) {
         this.parkingLots = parkingLots;
     }
 
     public Ticket park(Car car) {
-        ParkingLot lot = chooseParkingLot();
+        ParkingLot lot = chooser.choose(parkingLots);
         if (lot != null) {
             return lot.park(car);
         }
         return null;
-    }
-
-    protected ParkingLot chooseParkingLot() {
-        ParkingLot lot = null;
-        for (ParkingLot parkingLot : parkingLots) {
-            if (parkingLot.getFreeAreaSize() > 0) {
-                lot = parkingLot;
-                break;
-            }
-        }
-        return lot;
     }
 
     public Car unPark(Ticket ticket) {

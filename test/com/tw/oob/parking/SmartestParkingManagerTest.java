@@ -1,5 +1,6 @@
 package com.tw.oob.parking;
 
+import com.tw.oob.parking.chooser.SmartestChooser;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,10 +19,11 @@ public class SmartestParkingManagerTest {
         ParkingLot parkingLot1 = new ParkingLot(5);
         parkingLot1.park(new Car(2));
         parkingLots.add(parkingLot1);
-        SmartestParkingManager parkingManager =  new SmartestParkingManager(parkingLots);
+        ParkingManager smartestParkingManager = new ParkingManager(new SmartestChooser());
+        smartestParkingManager.setParkingLots(parkingLots);
 
         Car car = new Car(3);
-        Ticket ticket = parkingManager.park(car);
+        Ticket ticket = smartestParkingManager.park(car);
 
         Car sameCar = parkingLot1.unPark(ticket);
 
