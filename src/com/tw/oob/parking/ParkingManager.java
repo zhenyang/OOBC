@@ -2,36 +2,56 @@ package com.tw.oob.parking;
 
 import com.tw.oob.parking.chooser.Chooser;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingManager
-{
-    protected List<ParkingLot> parkingLots;
-    protected Chooser chooser;
+public class ParkingManager extends ParkingBoy{
+
+    private List<ParkingBoy> parkingBoys;
 
     public ParkingManager(Chooser chooser) {
-        this.chooser = chooser;
+        super(chooser);
+        parkingBoys = new ArrayList<ParkingBoy>();
     }
 
-    public void setParkingLots(List<ParkingLot> parkingLots) {
-        this.parkingLots = parkingLots;
+    public void addParkingBoy(ParkingBoy parkingBoy) {
+        parkingBoys.add(parkingBoy);
     }
 
-    public Ticket park(Car car) {
-        ParkingLot lot = chooser.choose(parkingLots);
-        if (lot != null) {
-            return lot.park(car);
-        }
-        return null;
-    }
-
+    @Override
     public Car unPark(Ticket ticket) {
-        for (ParkingLot parkingLot : parkingLots) {
-            Car car = parkingLot.unPark(ticket);
-            if (car != null) {
+        Car car = super.unPark(ticket);
+        if(car == null){
+           car = getCarFromBoys(ticket);
+
+        }
+        return car;
+    }
+
+    private Car getCarFromBoys(Ticket ticket) {
+        Car car = null;
+        for (ParkingBoy parkingBoy : parkingBoys) {
+            car = parkingBoy.unPark(ticket);
+            if(car != null)
                 return car;
+        }
+
+        return car;
+
+    }
+
+    @Override
+    public Ticket park(Car car) {
+        Ticket ticket = super.park(car);
+        if (ticket != null) {
+            return ticket;
+        }
+        for (ParkingBoy parkingBoy : parkingBoys) {
+            ticket = parkingBoy.park(car);
+            if (ticket != null) {
+                return ticket;
             }
         }
-        return null;
+        return ticket;
     }
 }

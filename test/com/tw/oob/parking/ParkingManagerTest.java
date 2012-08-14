@@ -3,20 +3,14 @@ package com.tw.oob.parking;
 import com.tw.oob.parking.chooser.SillyChooser;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
 
 public class ParkingManagerTest {
     @Test
-    public void test_should_park_car_when_two_parking_lots_are_empty() throws Exception {
-        ParkingManager parkingManager1 = new ParkingManager(new SillyChooser());
-        parkingManager1.setParkingLots(createParkingLots(2, 1));
-        ParkingManager parkingManager = parkingManager1;
+    public void test_should_manage_parking_lots() throws Exception {
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(Helper.createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
@@ -25,72 +19,71 @@ public class ParkingManagerTest {
     }
 
     @Test
-    public void test_should_park_car_when_first_parking_lot_is_full() throws Exception {
-        ParkingManager parkingManager1 = new ParkingManager(new SillyChooser());
-        parkingManager1.setParkingLots(createParkingLots(2, 1));
-        ParkingManager parkingManager = parkingManager1;
+    public void test_should_manage_a_parking_boy_to_park() throws Exception {
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
 
-        parkingManager.park(new Car(1));
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.setParkingLots(Helper.createParkingLots(2, 2));
+        parkingManager.addParkingBoy(parkingBoy);
 
-        Car car = new Car(2);
+        Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
 
-        assertThat(ticket.getCarId(), is(car.getId()));
+        Car sameCar = parkingBoy.unPark(ticket);
+        assertThat(car, is(sameCar));
     }
 
     @Test
-    public void test_should_not_park_car_when_all_parking_lots_are_full() throws Exception {
-        ParkingManager parkingManager1 = new ParkingManager(new SillyChooser());
-        parkingManager1.setParkingLots(createParkingLots(2, 1));
-        ParkingManager parkingManager = parkingManager1;
+    public void test_should_manage_multiple_parking_boys_to_park() throws Exception {
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
 
-        parkingManager.park(new Car(1));
-        parkingManager.park(new Car(2));
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.setParkingLots(Helper.createParkingLots(2, 0));
+        parkingManager.addParkingBoy(parkingBoy);
 
-        Car car = new Car(3);
+        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser());
+        parkingBoy1.setParkingLots(Helper.createParkingLots(2, 2));
+        parkingManager.addParkingBoy(parkingBoy1);
+
+
+        Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
 
-        assertThat(ticket, nullValue());
+        Car sameCar = parkingBoy1.unPark(ticket);
+        assertThat(car, is(sameCar));
     }
 
     @Test
-    public void test_should_unpark_car_when_ticket_is_valid() throws Exception {
-        ParkingManager parkingManager1 = new ParkingManager(new SillyChooser());
-        parkingManager1.setParkingLots(createParkingLots(2, 1));
-        ParkingManager parkingManager = parkingManager1;
+    public void test_should_manage_parking_lots_to_un_park_car() throws Exception {
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(Helper.createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingManager.park(car);
 
         Car sameCar = parkingManager.unPark(ticket);
 
-        assertThat(car, sameInstance(sameCar));
+        assertThat(car, is(sameCar));
     }
 
     @Test
-    public void test_should_park_car_to_first_not_full_parking_lot() throws Exception {
-        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        ParkingLot parkingLot = new ParkingLot(0);
-        parkingLots.add(parkingLot);
-        ParkingLot parkingLot1 = new ParkingLot(1);
-        parkingLots.add(parkingLot1);
-        ParkingManager parkingManager1 = new ParkingManager(new SillyChooser());
-        parkingManager1.setParkingLots(parkingLots);
-        ParkingManager parkingManager = parkingManager1;
+    public void test_should_manage_parking_boys_to_un_park_car() throws Exception {
+        ParkingManager parkingManager = new ParkingManager(new SillyChooser());
+        parkingManager.setParkingLots(Helper.createParkingLots(2, 0));
 
+        ParkingBoy boy1 = new ParkingBoy(new SillyChooser());
+
+        ParkingBoy boy2 = new ParkingBoy(new SillyChooser());
+        boy2.setParkingLots(Helper.createParkingLots(2, 2));
+        parkingManager.addParkingBoy(boy1);
+        parkingManager.addParkingBoy(boy2);
         Car car = new Car(1);
-        Ticket ticket = parkingManager.park(car);
+        Ticket ticket = boy2.park(car);
 
-        Car sameCar = parkingLot1.unPark(ticket);
+        Car sameCar = parkingManager.unPark(ticket);
 
-        assertThat(car, sameInstance(sameCar));
+        assertThat(car, is(sameCar));
     }
 
-    private List<ParkingLot> createParkingLots(int lotsSize, int eachAreaSize) {
-        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        for (int i = 0; i < lotsSize; i++) {
-            parkingLots.add(new ParkingLot(eachAreaSize));
-        }
-        return parkingLots;
-    }
+
 }

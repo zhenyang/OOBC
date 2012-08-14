@@ -6,6 +6,9 @@ import java.util.List;
 
 public class SillyChooser implements Chooser{
     public ParkingLot choose(List<ParkingLot> lots) {
+        if (lots == null) {
+            return null;
+        }
         ParkingLot lot = null;
         for (ParkingLot parkingLot : lots) {
             if (parkingLot.getFreeAreaSize() > 0) {
