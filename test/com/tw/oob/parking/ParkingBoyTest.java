@@ -15,7 +15,7 @@ public class ParkingBoyTest {
     @Test
     public void test_should_park_car_when_two_parking_lots_are_empty() throws Exception {
         ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
-        parkingBoy.setParkingLots(createParkingLots(2, 1));
+        parkingBoy.addParkingServices(Helper.createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingBoy.park(car);
@@ -25,9 +25,8 @@ public class ParkingBoyTest {
 
     @Test
     public void test_should_park_car_when_first_parking_lot_is_full() throws Exception {
-        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser());
-        parkingBoy1.setParkingLots(createParkingLots(2, 1));
-        ParkingBoy parkingBoy = parkingBoy1;
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.addParkingServices(Helper.createParkingLots(2, 1));
 
         parkingBoy.park(new Car(1));
 
@@ -39,9 +38,8 @@ public class ParkingBoyTest {
 
     @Test
     public void test_should_not_park_car_when_all_parking_lots_are_full() throws Exception {
-        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser());
-        parkingBoy1.setParkingLots(createParkingLots(2, 1));
-        ParkingBoy parkingBoy = parkingBoy1;
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.addParkingServices(Helper.createParkingLots(2, 1));
 
         parkingBoy.park(new Car(1));
         parkingBoy.park(new Car(2));
@@ -54,9 +52,8 @@ public class ParkingBoyTest {
 
     @Test
     public void test_should_unpark_car_when_ticket_is_valid() throws Exception {
-        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser());
-        parkingBoy1.setParkingLots(createParkingLots(2, 1));
-        ParkingBoy parkingBoy = parkingBoy1;
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.addParkingServices(Helper.createParkingLots(2, 1));
 
         Car car = new Car(1);
         Ticket ticket = parkingBoy.park(car);
@@ -68,14 +65,13 @@ public class ParkingBoyTest {
 
     @Test
     public void test_should_park_car_to_first_not_full_parking_lot() throws Exception {
-        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        ParkingLot parkingLot = new ParkingLot(0);
+        List<ParkingService> parkingLots = new ArrayList<ParkingService>();
+        ParkingService parkingLot = new ParkingLot(0);
         parkingLots.add(parkingLot);
-        ParkingLot parkingLot1 = new ParkingLot(1);
+        ParkingService parkingLot1 = new ParkingLot(1);
         parkingLots.add(parkingLot1);
-        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser());
-        parkingBoy1.setParkingLots(parkingLots);
-        ParkingBoy parkingBoy = parkingBoy1;
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser());
+        parkingBoy.addParkingServices(parkingLots);
 
         Car car = new Car(1);
         Ticket ticket = parkingBoy.park(car);
@@ -85,11 +81,4 @@ public class ParkingBoyTest {
         assertThat(car, sameInstance(sameCar));
     }
 
-    private List<ParkingLot> createParkingLots(int lotsSize, int eachAreaSize) {
-        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        for (int i = 0; i < lotsSize; i++) {
-            parkingLots.add(new ParkingLot(eachAreaSize));
-        }
-        return parkingLots;
-    }
 }

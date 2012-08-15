@@ -4,13 +4,13 @@ import com.tw.oob.parking.ParkingService;
 
 import java.util.List;
 
-public class SmartChooser implements Chooser {
+public class SmarterChooser implements Chooser {
     public ParkingService choose(List<ParkingService> lots) {
         ParkingService lot = null;
-        int max = 0;
+        double min = 1;
         for (ParkingService parkingLot : lots) {
-            if (parkingLot.getFreeAreaSize() > max) {
-                max = parkingLot.getFreeAreaSize();
+            if (parkingLot.getFreeAreaRatio() < min) {
+                min = parkingLot.getFreeAreaRatio();
                 lot = parkingLot;
             }
         }

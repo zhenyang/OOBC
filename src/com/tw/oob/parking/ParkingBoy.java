@@ -2,23 +2,24 @@ package com.tw.oob.parking;
 
 import com.tw.oob.parking.chooser.Chooser;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingBoy
-{
-    private List<ParkingLot> parkingLots;
+public class ParkingBoy implements ParkingService {
+    private List<ParkingService> parkingServices;
     private Chooser chooser;
 
     public ParkingBoy(Chooser chooser) {
         this.chooser = chooser;
+        parkingServices = new ArrayList<ParkingService>();
     }
 
-    public void setParkingLots(List<ParkingLot> parkingLots) {
-        this.parkingLots = parkingLots;
+    public void addParkingServices(List<ParkingService> parkingLots) {
+        this.parkingServices.addAll(parkingLots);
     }
 
     public Ticket park(Car car) {
-        ParkingLot lot = chooser.choose(parkingLots);
+        ParkingService lot = chooser.choose(parkingServices);
         if (lot != null) {
             return lot.park(car);
         }
@@ -26,15 +27,36 @@ public class ParkingBoy
     }
 
     public Car unPark(Ticket ticket) {
-        if(parkingLots == null){
-            return  null;
-        }
-        for (ParkingLot parkingLot : parkingLots) {
+        for (ParkingService parkingLot : parkingServices) {
             Car car = parkingLot.unPark(ticket);
             if (car != null) {
                 return car;
             }
         }
         return null;
+    }
+
+    public int getFreeAreaSize() {
+        int freeAreaSize = 0;
+        for (ParkingService parkingLot : parkingServices) {
+            freeAreaSize += parkingLot.getFreeAreaSize();
+        }
+        return freeAreaSize;
+    }
+
+    public double getFreeAreaRatio() {
+        return (double) getFreeAreaSize() / getAreaSize();
+    }
+
+    public int getAreaSize() {
+        int totalAreaSize = 0;
+        for (ParkingService parkingLot : parkingServices) {
+            totalAreaSize += parkingLot.getAreaSize();
+        }
+        return totalAreaSize;
+    }
+
+    public void addParkingService(ParkingService service) {
+        parkingServices.add(service);
     }
 }

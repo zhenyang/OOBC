@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 public class ParkingLotTest {
     @Test
     public void test_should_park_car_when_parking_lot_is_empty() {
-        ParkingLot parkingLot = new ParkingLot(5);
+        ParkingService parkingLot = new ParkingLot(5);
 
         Car car = new Car(1);
         Ticket ticket = parkingLot.park(car);
@@ -20,7 +20,7 @@ public class ParkingLotTest {
 
     @Test
     public void test_should_not_park_car_when_parking_lot_is_full() {
-        ParkingLot parkingLot = new ParkingLot(1);
+        ParkingService parkingLot = new ParkingLot(1);
 
         parkingLot.park(new Car(1));
 
@@ -31,7 +31,7 @@ public class ParkingLotTest {
 
     @Test
     public void test_should_park_car_when_parking_lot_is_not_full() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingService parkingLot = new ParkingLot(3);
 
         parkingLot.park(new Car(1));
 
@@ -43,7 +43,7 @@ public class ParkingLotTest {
 
     @Test
     public void test_should_unPark_car_when_ticket_is_valid() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingService parkingLot = new ParkingLot(3);
 
         Car car = new Car(1);
         Ticket ticket = parkingLot.park(car);
@@ -55,7 +55,7 @@ public class ParkingLotTest {
 
     @Test
     public void test_should_not_unPark_car_when_ticket_is_invalid() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingService parkingLot = new ParkingLot(3);
 
         Car car = new Car(1);
         Ticket ticket = parkingLot.park(car);
@@ -67,7 +67,7 @@ public class ParkingLotTest {
 
     @Test
     public void test_should_not_unPark_car_twice_when_ticket_is_valid() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingService parkingLot = new ParkingLot(3);
 
         Car car = new Car(1);
         Ticket ticket = parkingLot.park(car);

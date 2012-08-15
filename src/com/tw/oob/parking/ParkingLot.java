@@ -3,7 +3,7 @@ package com.tw.oob.parking;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingLot {
+public class ParkingLot implements ParkingService {
     private List<Car> areas;
     private int areaSize;
 
@@ -29,6 +29,10 @@ public class ParkingLot {
             }
         }
         return null;
+    }
+
+    public int getAreaSize() {
+        return areaSize;
     }
 
     public int getFreeAreaSize() {

@@ -5,53 +5,44 @@ import com.tw.oob.parking.chooser.Chooser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingManager extends ParkingBoy{
-
-    private List<ParkingBoy> parkingBoys;
+public class ParkingManager implements ParkingService {
+    private Chooser chooser;
+    private List<ParkingService> parkingLots;
 
     public ParkingManager(Chooser chooser) {
-        super(chooser);
-        parkingBoys = new ArrayList<ParkingBoy>();
+        this.chooser = chooser;
+        parkingLots = new ArrayList<ParkingService>();
+    }
+
+    public void setParkingLots(List<ParkingService> parkingLots) {
+        this.parkingLots.addAll(parkingLots);
+    }
+
+    public Ticket park(Car car) {
+        ParkingService lot = chooser.choose(parkingLots);
+        if (lot != null) {
+            return lot.park(car);
+        }
+        return null;
+    }
+
+    public Car unPark(Ticket ticket) {
+        return null;
+    }
+
+    public int getFreeAreaSize() {
+        return 0;
+    }
+
+    public double getFreeAreaRatio() {
+        return 0;
+    }
+
+    public int getAreaSize() {
+        return 0;
     }
 
     public void addParkingBoy(ParkingBoy parkingBoy) {
-        parkingBoys.add(parkingBoy);
-    }
-
-    @Override
-    public Car unPark(Ticket ticket) {
-        Car car = super.unPark(ticket);
-        if(car == null){
-           car = getCarFromBoys(ticket);
-
-        }
-        return car;
-    }
-
-    private Car getCarFromBoys(Ticket ticket) {
-        Car car = null;
-        for (ParkingBoy parkingBoy : parkingBoys) {
-            car = parkingBoy.unPark(ticket);
-            if(car != null)
-                return car;
-        }
-
-        return car;
-
-    }
-
-    @Override
-    public Ticket park(Car car) {
-        Ticket ticket = super.park(car);
-        if (ticket != null) {
-            return ticket;
-        }
-        for (ParkingBoy parkingBoy : parkingBoys) {
-            ticket = parkingBoy.park(car);
-            if (ticket != null) {
-                return ticket;
-            }
-        }
-        return ticket;
+        parkingLots.add(parkingBoy);
     }
 }
