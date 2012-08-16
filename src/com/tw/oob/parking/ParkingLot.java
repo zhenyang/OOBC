@@ -6,9 +6,15 @@ import java.util.List;
 public class ParkingLot implements ParkingService {
     private List<Car> areas;
     private int areaSize;
+    private String name;
 
     public ParkingLot(int areaSize) {
+        this(areaSize, "default ParkingLot");
+    }
+
+    public ParkingLot(int areaSize, String name) {
         this.areaSize = areaSize;
+        this.name = name;
         this.areas = new ArrayList<Car>(areaSize);
     }
 
@@ -41,5 +47,9 @@ public class ParkingLot implements ParkingService {
 
     public double getFreeAreaRatio() {
         return (double)getFreeAreaSize() / areaSize;
+    }
+
+    public String report(String indent) {
+        return name + " " + areas.size() + "/" + areaSize + "\n";
     }
 }

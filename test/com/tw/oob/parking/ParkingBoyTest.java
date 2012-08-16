@@ -81,4 +81,71 @@ public class ParkingBoyTest {
         assertThat(car, sameInstance(sameCar));
     }
 
+    @Test
+    public void test_should_return_report() throws Exception {
+        List<ParkingService> parkingLots = new ArrayList<ParkingService>();
+        ParkingService parkingLot = new ParkingLot(3);
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLots.add(parkingLot);
+        ParkingService parkingLot1 = new ParkingLot(5);
+        parkingLot1.park(new Car(3));
+        parkingLots.add(parkingLot1);
+        ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser(), "ParkingBoy");
+        parkingBoy.addParkingServices(parkingLots);
+
+        String result = parkingBoy.report("  ");
+
+        String expected = "ParkingBoy 3/8\n" +
+                "  default ParkingLot 2/3\n" +
+                "  default ParkingLot 1/5\n";
+        System.out.println(result);
+
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void test_should_return_report_with_multiple_level() throws Exception {
+        List<ParkingService> parkingLots = new ArrayList<ParkingService>();
+        ParkingService parkingLot = new ParkingLot(5);
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLots.add(parkingLot);
+        ParkingService parkingLot1 = new ParkingLot(5);
+        parkingLot1.park(new Car(3));
+        parkingLots.add(parkingLot1);
+        ParkingBoy parkingBoy1 = new ParkingBoy(new SillyChooser(), "ParkingBoy1");
+        parkingBoy1.addParkingServices(parkingLots);
+
+        List<ParkingService> parkingLots1 = new ArrayList<ParkingService>();
+        ParkingService parkingLot2 = new ParkingLot(5);
+        parkingLot2.park(new Car(4));
+        parkingLot2.park(new Car(5));
+        parkingLots1.add(parkingLot2);
+        ParkingService parkingLot3 = new ParkingLot(5);
+        parkingLot3.park(new Car(6));
+        parkingLots1.add(parkingLot3);
+        ParkingBoy parkingBoy2 = new ParkingBoy(new SillyChooser(), "ParkingBoy2");
+        parkingBoy2.addParkingServices(parkingLots1);
+
+
+        ParkingBoy parkingManager = new ParkingBoy(new SillyChooser(), "ParkingManager");
+        parkingManager.addParkingService(parkingBoy1);
+        parkingManager.addParkingService(parkingBoy2);
+
+        String result = parkingManager.report("  ");
+
+        String expected =
+                "ParkingManager 6/20\n" +
+                "  ParkingBoy1 3/10\n" +
+                "    default ParkingLot 2/5\n" +
+                "    default ParkingLot 1/5\n" +
+                "  ParkingBoy2 3/10\n" +
+                "    default ParkingLot 2/5\n" +
+                "    default ParkingLot 1/5\n";
+
+        System.out.println(result);
+        assertThat(result, is(expected));
+    }
+
 }

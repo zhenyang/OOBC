@@ -78,4 +78,14 @@ public class ParkingLotTest {
         assertThat(upParkAgainCar, nullValue());
     }
 
+
+    @Test
+    public void test_should_return_report() throws Exception {
+        ParkingLot lot = new ParkingLot(3, "ParkingLot");
+
+        lot.park(new Car(1));
+        String result = lot.report("  ");
+
+        assertThat(result, is("ParkingLot 1/3\n"));
+    }
 }

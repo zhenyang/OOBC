@@ -10,4 +10,6 @@ public interface ParkingService {
     double getFreeAreaRatio();
 
     int getAreaSize();
+
+    String report(String indent);
 }
