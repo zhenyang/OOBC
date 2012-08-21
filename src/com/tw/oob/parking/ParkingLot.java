@@ -46,10 +46,12 @@ public class ParkingLot implements ParkingService {
     }
 
     public double getFreeAreaRatio() {
-        return (double)getFreeAreaSize() / areaSize;
+        return (double) getFreeAreaSize() / areaSize;
     }
 
     public String report(String indent) {
-        return name + " " + areas.size() + "/" + areaSize + "\n";
+        return new StringBuilder().append(indent).append(name).append(" ").append(areas.size())
+                .append("/").append(areaSize).append("\n").toString();
     }
+
 }

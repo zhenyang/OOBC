@@ -86,6 +86,6 @@ public class ParkingLotTest {
         lot.park(new Car(1));
         String result = lot.report("  ");
 
-        assertThat(result, is("ParkingLot 1/3\n"));
+        assertThat(result, is("  ParkingLot 1/3\n"));
     }
 }

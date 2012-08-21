@@ -68,16 +68,12 @@ public class ParkingBoy implements ParkingService {
     }
 
     public String report(String indent) {
-        String result = name + " " + (getAreaSize() - getFreeAreaSize()) + "/" + getAreaSize() + "\n";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(indent).append(name).append(" ").append(getAreaSize() - getFreeAreaSize())
+                .append("/").append(getAreaSize()).append("\n");
         for (ParkingService parkingService : parkingServices) {
-            String childReport = parkingService.report(indent);
-            String[] split = childReport.split("\n");
-            for (String s : split) {
-                String s1 = indent + s + "\n";
-                s1 = s1.replaceAll("\n", "");
-                result += (s1 + "\n");
-            }
+            stringBuilder.append(parkingService.report(indent + "  "));
         }
-        return result;
+        return stringBuilder.toString();
     }
 }

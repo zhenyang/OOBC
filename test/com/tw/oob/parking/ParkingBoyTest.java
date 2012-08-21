@@ -94,7 +94,7 @@ public class ParkingBoyTest {
         ParkingBoy parkingBoy = new ParkingBoy(new SillyChooser(), "ParkingBoy");
         parkingBoy.addParkingServices(parkingLots);
 
-        String result = parkingBoy.report("  ");
+        String result = parkingBoy.report("");
 
         String expected = "ParkingBoy 3/8\n" +
                 "  default ParkingLot 2/3\n" +
@@ -133,7 +133,7 @@ public class ParkingBoyTest {
         parkingManager.addParkingService(parkingBoy1);
         parkingManager.addParkingService(parkingBoy2);
 
-        String result = parkingManager.report("  ");
+        String result = parkingManager.report("");
 
         String expected =
                 "ParkingManager 6/20\n" +
